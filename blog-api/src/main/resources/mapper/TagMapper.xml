@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.killstan.bolg.mapper.TagMapper">
+
+    <!-- selectByName -->
+    <select id="selectListByArticleId" resultType="com.killstan.bolg.entity.po.Tag">
+        select t.id,t.avatar,t.tag_name from ms_tag t join ms_article_tag att on t.id = att.tag_id WHERE att.article_id = #{id}
+    </select>
+    <select id="selectHotTags" resultType="com.killstan.bolg.entity.po.Tag">
+        SELECT * FROM ms_tag t WHERE t.id IN (SELECT a.tag_id FROM( SELECT count(*) tag_count,tag_id FROM ms_article_tag  GROUP BY tag_id ORDER BY tag_count DESC LIMIT #{limit} ) a)
+    </select>
+
+</mapper>
